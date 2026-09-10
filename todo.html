@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do App</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 18px;
+            width: 60%;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        li {
+            margin: 12px;
+            font-size: 18px;
+            list-style: none;
+        }
+
+        .done {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📝 My To-Do App</h1>
+
+    <input id="task" placeholder="Task likho">
+    <button onclick="addTask()">Add ➕</button>
+
+    <h3>Tasks: <span id="count">0</span></h3>
+
+    <ul id="list"></ul>
+<button onclick="clearAll()">🗑️ Clear All</button>
+
+    <script>function clearAll() {
+    document.getElementById("list").innerHTML = "";
+    total = 0;
+    document.getElementById("count").innerText = total;
+}
+        let total = 0;
+
+        function addTask() {
+            let task = document.getElementById("task").value;
+
+            if (task === "") {
+                alert("Pehle task likho!");
+                return;
+            }
+
+            let item = document.createElement("li");
+            item.innerText = task;
+
+            let doneButton = document.createElement("button");
+            doneButton.innerText = "✅ Done";
+
+            doneButton.onclick = function() {
+                item.classList.toggle("done");
+            };
+
+            let deleteButton = document.createElement("button");
+            deleteButton.innerText = "🗑️ Delete";
+
+            deleteButton.onclick = function() {
+                item.remove();
+                total--;
+                document.getElementById("count").innerText = total;
+            };
+
+            item.appendChild(doneButton);
+            item.appendChild(deleteButton);
+
+            document.getElementById("list").appendChild(item);
+
+            total++;
+            document.getElementById("count").innerText = total;
+
+            document.getElementById("task").value = "";
+        }
+    </script>
+
+</body>
+</html>
