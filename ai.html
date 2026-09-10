@@ -103,6 +103,8 @@ button{
     >
 
     <button onclick="sendMessage()">➤ Send</button>
+<button onclick="startVoice()">🎤</button>
+<button onclick="sendMessage()">➤ Send</button>
 </div>
 
 <script>
@@ -266,7 +268,27 @@ if(
 
 
 showHistory();
+function startVoice() {
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
 
+    if (!SpeechRecognition) {
+        alert("❌ Voice input इस browser में supported नहीं है।");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "hi-IN";
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        document.getElementById("message").value =
+            event.results[0][0].transcript;
+    };
+}
 </script>
 
 </body>
