@@ -2,66 +2,79 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My To-Do App</title>
+    <title>Jaypratap To-Do</title>
 
     <style>
         body {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             text-align: center;
-            padding: 30px 15px;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .box {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
         }
 
         input {
-            padding: 12px;
-            font-size: 18px;
+            padding: 10px;
             width: 60%;
         }
 
         button {
-            padding: 12px;
-            font-size: 16px;
+            padding: 10px;
             margin: 5px;
+            border-radius: 8px;
         }
 
         li {
-            margin: 12px;
-            font-size: 18px;
+            margin: 10px;
             list-style: none;
         }
 
         .done {
             text-decoration: line-through;
         }
-.dark {
-    background: #111;
-    color: white;
-}
 
-.dark .box {
-    background: #222;
-    color: white;
-}    </style>
+        .dark {
+            background: #111;
+            color: white;
+        }
 
+        .dark .box {
+            background: #222;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>📝 My To-Do App</h1>
+    <button onclick="darkMode()">🌙 Dark Mode</button>
 
-    <input id="task" placeholder="Task likho">
-    <button onclick="addTask()">Add ➕</button>
+    <div class="box">
+        <h1>📝 Jaypratap To-Do</h1>
 
-    <h3>Tasks: <span id="count">0</span></h3>
+        <input id="task" placeholder="Task likho">
+        <button onclick="addTask()">➕ Add</button>
 
-    <ul id="list"></ul>
-<button onclick="clearAll()">🗑️ Clear All</button>
+        <h3>Tasks: <span id="count">0</span></h3>
 
-    <script>function clearAll() {
-    document.getElementById("list").innerHTML = "";
-    total = 0;
-    document.getElementById("count").innerText = total;
-}
+        <ul id="list"></ul>
+
+        <button onclick="clearAll()">🗑️ Clear All</button>
+    </div>
+
+    <script>
         let total = 0;
+
+        function darkMode() {
+            document.body.classList.toggle("dark");
+        }
 
         function addTask() {
             let task = document.getElementById("task").value;
@@ -100,10 +113,13 @@
 
             document.getElementById("task").value = "";
         }
-    </script>function darkMode() {
-    document.body.classList.toggle("dark");
-}
+
+        function clearAll() {
+            document.getElementById("list").innerHTML = "";
+            total = 0;
+            document.getElementById("count").innerText = total;
+        }
+    </script>
 
 </body>
 </html>
-<button onclick="darkMode()">🌙 Dark Mode</button>
