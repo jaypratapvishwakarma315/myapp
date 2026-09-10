@@ -70,10 +70,51 @@
     </div>
 
     <script>
-        let total = 0;
-let savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        function darkMode() {
-            document.body.classList.toggle("dark");
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        function saveTasks() {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function showTasks() {
+            let list = document.getElementById("list");
+            list.innerHTML = "";
+
+            tasks.forEach(function(task, index) {
+
+                let item = document.createElement("li");
+
+                if (task.done) {
+                    item.classList.add("done");
+                }
+
+                item.innerText = task.text;
+
+                let doneButton = document.createElement("button");
+                doneButton.innerText = "✅ Done";
+
+                doneButton.onclick = function() {
+                    tasks[index].done = !tasks[index].done;
+                    saveTasks();
+                    showTasks();
+                };
+
+                let deleteButton = document.createElement("button");
+                deleteButton.innerText = "🗑️ Delete";
+
+                deleteButton.onclick = function() {
+                    tasks.splice(index, 1);
+                    saveTasks();
+                    showTasks();
+                };
+
+                item.appendChild(doneButton);
+                item.appendChild(deleteButton);
+
+                list.appendChild(item);
+            });
+
+            document.getElementById("count").innerText = tasks.length;
         }
 
         function addTask() {
@@ -84,41 +125,29 @@ let savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
                 return;
             }
 
-            let item = document.createElement("li");
-            item.innerText = task;
+            tasks.push({
+                text: task,
+                done: false
+            });
 
-            let doneButton = document.createElement("button");
-            doneButton.innerText = "✅ Done";
-
-            doneButton.onclick = function() {
-                item.classList.toggle("done");
-            };
-
-            let deleteButton = document.createElement("button");
-            deleteButton.innerText = "🗑️ Delete";
-
-            deleteButton.onclick = function() {
-                item.remove();
-                total--;
-                document.getElementById("count").innerText = total;
-            };
-
-            item.appendChild(doneButton);
-            item.appendChild(deleteButton);
-
-            document.getElementById("list").appendChild(item);
-
-            total++;
-            document.getElementById("count").innerText = total;
+            saveTasks();
 
             document.getElementById("task").value = "";
+
+            showTasks();
         }
 
         function clearAll() {
-            document.getElementById("list").innerHTML = "";
-            total = 0;
-            document.getElementById("count").innerText = total;
+            tasks = [];
+            saveTasks();
+            showTasks();
         }
+
+        function darkMode() {
+            document.body.classList.toggle("dark");
+        }
+
+        showTasks();
     </script>
 
 </body>
