@@ -71,7 +71,7 @@
 
     <script>
         let total = 0;
-
+let savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
         function darkMode() {
             document.body.classList.toggle("dark");
         }
