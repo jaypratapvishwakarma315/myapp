@@ -1,68 +1,273 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>JAY AI</title>
+
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f2f2f2}
-.header{background:#222;color:white;padding:18px;text-align:center}
-.chat{max-width:600px;margin:20px auto;padding:15px 15px 90px}
-.message{padding:12px;margin:10px 0;border-radius:12px;background:white;word-wrap:break-word}
-.input-area{position:fixed;bottom:0;left:0;right:0;display:flex;padding:10px;background:white}
-input{flex:1;padding:12px;border-radius:10px;border:1px solid #aaa}
-button{padding:12px 18px;margin-left:5px;border-radius:10px;border:none}
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f2f2f2;
+    color:#111;
+}
+
+body.dark{
+    background:#111;
+    color:white;
+}
+
+.header{
+    background:#222;
+    color:white;
+    padding:18px;
+    text-align:center;
+}
+
+.controls{
+    text-align:center;
+    padding:10px;
+}
+
+.chat{
+    max-width:600px;
+    margin:10px auto;
+    padding:10px 15px 90px;
+}
+
+.message{
+    padding:12px;
+    margin:10px 0;
+    border-radius:12px;
+    background:white;
+    word-wrap:break-word;
+}
+
+.dark .message{
+    background:#222;
+    color:white;
+}
+
+.input-area{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    display:flex;
+    padding:10px;
+    background:white;
+}
+
+.dark .input-area{
+    background:#222;
+}
+
+input{
+    flex:1;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #aaa;
+}
+
+button{
+    padding:10px 14px;
+    margin:3px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+}
 </style>
 </head>
+
 <body>
+
 <div class="header">
-<h2>🤖 JAY AI</h2>
-<p>Your Personal AI Assistant</p>
+    <h2>🤖 JAY AI</h2>
+    <p>Your Personal AI Assistant</p>
 </div>
 
-<div class="chat" id="chat">
-<div class="message">🤖 Hello! Main JAY AI hoon.</div>
+<div class="controls">
+    <button onclick="darkMode()">🌙 Dark Mode</button>
+    <button onclick="clearChat()">🗑️ Clear Chat</button>
 </div>
+
+<div class="chat" id="chat"></div>
 
 <div class="input-area">
-<input id="message" placeholder="Message likho..." onkeydown="if(event.key==='Enter')sendMessage()">
-<button onclick="sendMessage()">➤ Send</button>
+    <input
+        id="message"
+        placeholder="Message likho..."
+        onkeydown="if(event.key==='Enter') sendMessage()"
+    >
+
+    <button onclick="sendMessage()">➤ Send</button>
 </div>
 
 <script>
+
+let history =
+    JSON.parse(localStorage.getItem("jayAIHistory")) || [];
+
+
+function saveHistory(){
+
+    localStorage.setItem(
+        "jayAIHistory",
+        JSON.stringify(history)
+    );
+
+}
+
+
+function showHistory(){
+
+    const chat =
+        document.getElementById("chat");
+
+    chat.innerHTML = "";
+
+    if(history.length === 0){
+
+        chat.innerHTML =
+            '<div class="message">🤖 Hello! Main JAY AI hoon.</div>';
+
+        return;
+    }
+
+    history.forEach(function(item){
+
+        const msg =
+            document.createElement("div");
+
+        msg.className = "message";
+
+        msg.textContent = item;
+
+        chat.appendChild(msg);
+
+    });
+
+}
+
+
 async function sendMessage(){
-    const input=document.getElementById("message");
-    const text=input.value.trim();
-    if(!text)return;
 
-    const chat=document.getElementById("chat");
-    chat.innerHTML += '<div class="message">👤 '+escapeHtml(text)+'</div>';
-    input.value="";
+    const input =
+        document.getElementById("message");
 
-    const thinking=document.createElement("div");
-    thinking.className="message";
-    thinking.textContent="🤖 Thinking...";
-    chat.appendChild(thinking);
-    window.scrollTo(0,document.body.scrollHeight);
+    const text =
+        input.value.trim();
+
+    if(text === "") return;
+
+
+    history.push("👤 " + text);
+
+    saveHistory();
+
+    showHistory();
+
+    input.value = "";
+
+
+    const thinking =
+        document.createElement("div");
+
+    thinking.className = "message";
+
+    thinking.textContent =
+        "🤖 Thinking...";
+
+    document
+        .getElementById("chat")
+        .appendChild(thinking);
+
 
     try{
-        const response=await fetch("http://127.0.0.1:5000/chat",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({message:text})
-        });
-        if(!response.ok)throw new Error("Server error");
-        const data=await response.json();
-        thinking.textContent=data.reply || "🤖 कोई जवाब नहीं मिला।";
+
+        const response =
+            await fetch("/chat",{
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+                    message:text
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        const reply =
+            data.reply ||
+            "🤖 कोई जवाब नहीं मिला।";
+
+
+        thinking.textContent =
+            reply;
+
+
+        history.push(reply);
+
+        saveHistory();
+
+
     }catch(error){
-        thinking.textContent="❌ Backend से connection नहीं हो पाया।";
+
+        thinking.textContent =
+            "❌ Backend से connection नहीं हो पाया।";
+
     }
+
 }
 
-function escapeHtml(text){
-    const div=document.createElement("div");
-    div.textContent=text;
-    return div.innerHTML;
+
+function clearChat(){
+
+    history = [];
+
+    saveHistory();
+
+    showHistory();
+
 }
+
+
+function darkMode(){
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "jayAIDark",
+        document.body.classList.contains("dark")
+    );
+
+}
+
+
+if(
+    localStorage.getItem("jayAIDark")
+    === "true"
+){
+
+    document.body.classList.add("dark");
+
+}
+
+
+showHistory();
+
 </script>
+
 </body>
 </html>
