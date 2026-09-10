@@ -2,20 +2,20 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaypratap App</title>
+    <title>Jaypratap Coding</title>
 
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            text-align: center;
             background: #f2f2f2;
+            text-align: center;
         }
 
-
-        nav {             padding: 15px;
+        nav {
             background: #222;
-        }<button onclick="darkMode()">🌙 Dark Mode</button>
+            padding: 15px;
+        }
 
         nav a {
             color: white;
@@ -24,56 +24,67 @@
             font-weight: bold;
         }
 
-        .box {
-            margin: 60px 20px;
-            padding: 30px 15px;
+        .hero {
+            padding: 70px 20px;
+        }
+
+        h1 {
+            font-size: 38px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 25px;
+            margin-top: 15px;
+            background: #222;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+
+        .card {
+            margin: 20px;
+            padding: 25px;
             background: white;
             border-radius: 20px;
         }
 
-        h1 {
-            font-size: 32px;
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            background: #222;
+            color: white;
         }
-
-        button {
-            padding: 12px 25px;
-            font-size: 18px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
     </style>
-.dark {
-    background: #111;
-    color: white;
-}
-
-.dark .box {
-    background: #222;
-    color: white;
-}
 </head>
 
 <body>
 
     <nav>
-       <a href="index.html">Home 🏠</a>
-        <a href="todo.html">To-Do 📝</a>
+        <a href="index.html">🏠 Home</a>
+        <a href="todo.html">📝 To-Do</a>
     </nav>
-    <div class="box">
+
+    <section class="hero">
         <h1>🚩 Jaypratap Coding 🚩</h1>
 
-        <p>Welcome to my first website!</p>
+        <p>Welcome to my first professional website! 💻</p>
 
-        <button onclick="hello()">Click Me 👆</button>
+        <a class="btn" href="todo.html">Open To-Do 📝</a>
+    </section>
+
+    <div class="card">
+        <h2>💻 My Coding Journey</h2>
+        <p>Learning HTML, CSS, JavaScript and Python 🚀</p>
     </div>
 
-    <script>
-        function hello() {
-            alert("Jai Shree Ram 🚩");
-        }
-    </script>function darkMode() {
-    document.body.classList.toggle("dark");
-}
+    <footer>
+        © 2026 Jaypratap Coding
+    </footer>
+
 </body>
 </html>
