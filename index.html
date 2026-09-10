@@ -41,16 +41,25 @@
             border-radius: 10px;
             cursor: pointer;
         }
+
     </style>
+.dark {
+    background: #111;
+    color: white;
+}
+
+.dark .box {
+    background: #222;
+    color: white;
+}
 </head>
 
 <body>
 
     <nav>
-        <a href="index.html">Home 🏠</a>
+       <a href="index.html">Home 🏠</a>
         <a href="todo.html">To-Do 📝</a>
     </nav>
-
     <div class="box">
         <h1>🚩 Jaypratap Coding 🚩</h1>
 
@@ -64,9 +73,7 @@
             alert("Jai Shree Ram 🚩");
         }
     </script>function darkMode() {
-    document.body.style.background = "#111";
-    document.body.style.color = "white";
+    document.body.classList.toggle("dark");
 }
-
 </body>
 </html>
