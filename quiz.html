@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaypratap Quiz</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .quiz-box {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="quiz-box">
+    <h1>🧠 Jaypratap Quiz</h1>
+
+    <h2 id="question">Question</h2>
+
+    <div id="answers"></div>
+
+    <p>Score: <span id="score">0</span></p>
+
+    <button onclick="nextQuestion()">➡️ Next</button>
+</div>
+
+<script>
+let questions = [
+    {
+        question: "HTML का पूरा नाम क्या है?",
+        answers: ["Hyper Text Markup Language", "High Text Machine Language", "Hyper Tool Multi Language"],
+        correct: 0
+    },
+    {
+        question: "CSS किसके लिए इस्तेमाल होती है?",
+        answers: ["Design", "Database", "Server"],
+        correct: 0
+    },
+    {
+        question: "JavaScript क्या करती है?",
+        answers: ["Website को interactive बनाती है", "सिर्फ फोटो बनाती है", "सिर्फ text लिखती है"],
+        correct: 0
+    }
+];
+
+let current = 0;
+let score = 0;
+
+function showQuestion() {
+    document.getElementById("question").innerText =
+        questions[current].question;
+
+    let answers = document.getElementById("answers");
+    answers.innerHTML = "";
+
+    questions[current].answers.forEach(function(answer, index) {
+
+        let button = document.createElement("button");
+        button.innerText = answer;
+
+        button.onclick = function() {
+            if (index === questions[current].correct) {
+                score++;
+                document.getElementById("score").innerText = score;
+                alert("✅ सही जवाब!");
+            } else {
+                alert("❌ गलत जवाब!");
+            }
+        };
+
+        answers.appendChild(button);
+    });
+}
+
+function nextQuestion() {
+    current++;
+
+    if (current >= questions.length) {
+        alert("🎉 Quiz खत्म! आपका Score: " + score);
+        current = 0;
+        score = 0;
+        document.getElementById("score").innerText = score;
+    }
+
+    showQuestion();
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
