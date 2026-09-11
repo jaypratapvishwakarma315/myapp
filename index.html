@@ -1,92 +1,156 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaypratap Coding</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Heart Animation ❤️</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            text-align: center;
-        }
+<style>
+*{
+  box-sizing:border-box;
+}
 
-        nav {
-            background: #222;
-            padding: 15px;
-        }
+body{
+  margin:0;
+  min-height:100vh;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 10px;
-            font-weight: bold;
-        }
+.container{
+  width:100%;
+  max-width:600px;
+  text-align:center;
+}
 
-        .hero {
-            padding: 70px 20px;
-        }
+h1{
+  color:#f2c7e5;
+  font-size:32px;
+  margin-bottom:30px;
+  text-shadow:0 0 15px #ff8bd8;
+}
 
-        h1 {
-            font-size: 38px;
-        }
+.heart{
+  position:relative;
+  width:300px;
+  height:270px;
+  margin:auto;
+  filter:drop-shadow(0 0 12px #ff8bd8);
+  animation:beat 1.2s infinite;
+}
 
-        p {
-            font-size: 18px;
-        }
+/* Heart shape */
+.heart::before,
+.heart::after{
+  content:"";
+  position:absolute;
+  top:0;
+  width:150px;
+  height:240px;
+  border:4px solid #f39acb;
+  border-radius:150px 150px 0 0;
+  border-bottom:0;
+}
 
-        .btn {
-            display: inline-block;
-            padding: 13px 25px;
-            margin-top: 15px;
-            background: #222;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-        }
+.heart::before{
+  left:150px;
+  transform:rotate(45deg);
+  transform-origin:0 100%;
+}
 
-        .card {
-            margin: 20px;
-            padding: 25px;
-            background: white;
-            border-radius: 20px;
-        }
+.heart::after{
+  left:0;
+  transform:rotate(-45deg);
+  transform-origin:100% 100%;
+}
 
-        footer {
-            margin-top: 50px;
-            padding: 20px;
-            background: #222;
-            color: white;
-        }
-    </style>
+.words{
+  position:absolute;
+  inset:25px 25px 20px;
+  overflow:hidden;
+  color:#f5a9d3;
+  font-size:13px;
+  line-height:16px;
+  text-align:center;
+  opacity:.9;
+  animation:move 5s linear infinite;
+}
+
+.words span{
+  display:inline-block;
+  margin:2px;
+  transform:rotate(-30deg);
+  text-shadow:0 0 8px white;
+}
+
+@keyframes beat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+}
+
+@keyframes move{
+  0%{transform:translateY(20px)}
+  100%{transform:translateY(-120px)}
+}
+
+.love{
+  margin-top:35px;
+  color:white;
+  font-size:24px;
+}
+
+button{
+  margin-top:20px;
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
+  background:#f39acb;
+  color:#000;
+  font-size:17px;
+  cursor:pointer;
+  box-shadow:0 0 15px #f39acb;
+}
+</style>
 </head>
 
 <body>
 
-    <nav>
-        <a href="index.html">🏠 Home</a>
-        <a href="todo.html">📝 To-Do</a>
-<a href="ai.html">🤖 JAY AI</a>
-<a href="quiz.html">🧠 Quiz</a>
-    </nav>
+<div class="container">
 
-    <section class="hero">
-        <h1>🚩 Jaypratap Coding 🚩</h1>
+<h1>Love Heart Animation ❤️</h1>
 
-        <p>Welcome to my first professional website! 💻</p>
+<div class="heart">
+  <div class="words" id="words"></div>
+</div>
 
-        <a class="btn" href="todo.html">Open To-Do 📝</a>
-    </section>
+<div class="love">
+  ❤️ I Love You ❤️
+</div>
 
-    <div class="card">
-        <h2>💻 My Coding Journey</h2>
-        <p>Learning HTML, CSS, JavaScript and Python 🚀</p>
-    </div>
+<button onclick="createLove()">Click for Love 💕</button>
 
-    <footer>
-        © 2026 Jaypratap Coding
-    </footer>
+</div>
+
+<script>
+const words = document.getElementById("words");
+
+function createLove(){
+  words.innerHTML = "";
+
+  for(let i=0;i<80;i++){
+    const span = document.createElement("span");
+    span.innerText = "I love you";
+    words.appendChild(span);
+  }
+}
+
+createLove();
+</script>
 
 </body>
 </html>
