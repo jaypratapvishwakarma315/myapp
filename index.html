@@ -6,161 +6,88 @@
 <title>Happy Birthday 🎂</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-  margin:0;
-  min-height:100vh;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  font-family:Arial,sans-serif;
-  color:white;
-  background:linear-gradient(-45deg,#ff1493,#7b00ff,#00bfff,#ff0080);
-  background-size:400% 400%;
-  animation:bg 8s ease infinite;
+ margin:0;
+ min-height:100vh;
+ font-family:Arial,sans-serif;
+ text-align:center;
+ color:white;
+ background:linear-gradient(135deg,#ff1493,#6a00ff,#00bfff);
+ background-size:400% 400%;
+ animation:bg 8s infinite;
 }
 
 @keyframes bg{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+ 0%{background-position:0 50%}
+ 50%{background-position:100% 50%}
+ 100%{background-position:0 50%}
 }
 
-.box{
-  position:relative;
-  z-index:5;
-  padding:30px 20px;
+.container{
+ padding:35px 15px;
 }
 
 h1{
-  font-size:42px;
-  margin:10px;
-  text-shadow:0 0 15px white,0 0 30px #ffeb3b;
-  animation:glow 1.5s infinite alternate;
-}
-
-@keyframes glow{
-  from{transform:scale(1)}
-  to{transform:scale(1.05)}
+ font-size:40px;
+ text-shadow:0 0 20px white;
 }
 
 .name{
-  font-size:32px;
-  font-weight:bold;
-  color:#ffe600;
-  text-shadow:0 0 15px #fff;
+ font-size:32px;
+ font-weight:bold;
+ color:#ffe600;
 }
 
 .message{
-  font-size:20px;
-  margin:20px 0;
+ font-size:20px;
+ margin:20px 0;
 }
 
 button{
-  padding:16px 30px;
-  font-size:20px;
-  font-weight:bold;
-  border:0;
-  border-radius:50px;
-  cursor:pointer;
-  background:white;
-  color:#ff1493;
-  box-shadow:0 0 20px white;
-  transition:.3s;
+ padding:15px 28px;
+ border:0;
+ border-radius:30px;
+ font-size:19px;
+ font-weight:bold;
+ color:#ff1493;
+ background:white;
+ box-shadow:0 0 20px white;
 }
-
-button:hover{
-  transform:scale(1.1);
-}
-
-.balloon{
-  position:absolute;
-  width:55px;
-  height:70px;
-  border-radius:50%;
-  bottom:-100px;
-  animation:fly 8s linear infinite;
-  opacity:.9;
-}
-
-.balloon:after{
-  content:"";
-  position:absolute;
-  width:2px;
-  height:80px;
-  background:white;
-  top:65px;
-  left:27px;
-}
-
-@keyframes fly{
-  0%{transform:translateY(0)}
-  100%{transform:translateY(-120vh)}
-}
-
-.b1{left:8%;background:#ff3b81;animation-delay:0s}
-.b2{left:25%;background:#00e5ff;animation-delay:2s}
-.b3{left:50%;background:#ffe600;animation-delay:4s}
-.b4{left:75%;background:#8cff00;animation-delay:1s}
-.b5{left:90%;background:#ff7b00;animation-delay:3s}
-
-.heart{
-  position:absolute;
-  font-size:25px;
-  animation:heart 5s linear infinite;
-}
-
-@keyframes heart{
-  0%{
-    transform:translateY(100vh) scale(.5);
-    opacity:0;
-  }
-  30%{opacity:1}
-  100%{
-    transform:translateY(-20vh) scale(1.5);
-    opacity:0;
-  }
-}
-
-.h1{left:15%;animation-delay:1s}
-.h2{left:45%;animation-delay:3s}
-.h3{left:80%;animation-delay:5s}
 
 #surprise{
-  display:none;
-  margin-top:20px;
-  font-size:24px;
-  font-weight:bold;
-  color:#fff;
-  text-shadow:0 0 15px #ffeb3b;
+ display:none;
+ margin:20px 0;
+ font-size:23px;
+}
+
+.gallery{
+ margin-top:30px;
+}
+
+.gallery h2{
+ font-size:30px;
+}
+
+.photo{
+ width:90%;
+ max-width:350px;
+ border-radius:20px;
+ margin:10px;
+ border:4px solid white;
+ box-shadow:0 0 20px white;
 }
 </style>
 </head>
 
 <body>
 
-<div class="balloon b1"></div>
-<div class="balloon b2"></div>
-<div class="balloon b3"></div>
-<div class="balloon b4"></div>
-<div class="balloon b5"></div>
-
-<div class="heart h1">❤️</div>
-<div class="heart h2">💖</div>
-<div class="heart h3">💕</div>
-
-<div class="box">
+<div class="container">
 
 <h1>🎂 HAPPY BIRTHDAY 🎂</h1>
 
-<div class="name">
-My Cutie 😘👸
-</div>
+<div class="name">My Cutie 😘👸</div>
 
 <div class="message">
 🎉 जन्मदिन की बहुत-बहुत शुभकामनाएँ 🎉
@@ -168,48 +95,31 @@ My Cutie 😘👸
 ✨ हमेशा खुश रहो ✨
 </div>
 
-<button onclick="surprise()">
+<button onclick="showMessage()">
 🎁 Click Me 🎁
 </button>
 
 <div id="surprise">
 ❤️ Happy Birthday My Cutie 😘👸 ❤️
 <br>
-🎂🎉 Have a Beautiful Day! 🎉🎂
+🎉 Have a Beautiful Day! 🎉
+</div>
+
+<div class="gallery">
+<h2>📸 My Gallery ❤️</h2>
+
+<img class="photo"
+src="Screenshot_20260911-114009.png"
+alt="Birthday Photo">
+
 </div>
 
 </div>
 
 <script>
-function surprise(){
-  document.getElementById("surprise").style.display="block";
-
-  for(let i=0;i<40;i++){
-    let c=document.createElement("div");
-    c.innerHTML=["🎉","❤️","💖","🎈","✨"][Math.floor(Math.random()*5)];
-
-    c.style.position="fixed";
-    c.style.left=Math.random()*100+"vw";
-    c.style.top="-20px";
-    c.style.fontSize=(15+Math.random()*25)+"px";
-    c.style.zIndex="10";
-    c.style.animation="fall 3s linear";
-
-    document.body.appendChild(c);
-
-    setTimeout(()=>c.remove(),3000);
-  }
+function showMessage(){
+ document.getElementById("surprise").style.display="block";
 }
-
-let style=document.createElement("style");
-style.innerHTML=`
-@keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(720deg);
-    opacity:0;
-  }
-}`;
-document.head.appendChild(style);
 </script>
 
 </body>
