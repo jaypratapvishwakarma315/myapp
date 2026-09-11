@@ -1,37 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Love Heart ❤️</title>
+<title>My Cutie ❤️</title>
+
 <style>
+*{box-sizing:border-box}
+
 body{
-margin:0;background:#000;color:white;min-height:100vh;
-display:flex;justify-content:center;align-items:center;
-overflow:hidden;font-family:Arial;text-align:center
+ margin:0;
+ min-height:100vh;
+ overflow:hidden;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:#000;
+ font-family:Arial,sans-serif;
+ text-align:center;
 }
-h1{color:#ff9ed2;text-shadow:0 0 20px #ff4da6}
+
+.box{position:relative;z-index:2}
+
+h1{
+ color:#ffb6df;
+ font-size:30px;
+ text-shadow:0 0 10px #ff4fa3,0 0 25px #ff4fa3;
+ animation:glow 1.5s infinite alternate;
+}
+
 .heart{
-font-size:100px;
-animation:beat 1s infinite;
-filter:drop-shadow(0 0 20px #ff1493)
+ font-size:120px;
+ animation:beat 1s infinite;
+ filter:drop-shadow(0 0 20px #ff1493);
 }
-.love{color:#ff9ed2;font-size:24px}
+
+.message{
+ color:#fff;
+ font-size:25px;
+ text-shadow:0 0 15px #ff4fa3;
+ margin:15px;
+}
+
 button{
-padding:12px 25px;border:0;border-radius:25px;
-background:#ff9ed2;font-size:18px;margin-top:20px
+ border:0;
+ border-radius:30px;
+ padding:13px 28px;
+ font-size:18px;
+ background:#ff9ed2;
+ box-shadow:0 0 20px #ff4fa3;
 }
+
+.floating{
+ position:absolute;
+ bottom:-50px;
+ font-size:25px;
+ animation:up 6s linear infinite;
+}
+
 @keyframes beat{
-50%{transform:scale(1.15)}
+ 50%{transform:scale(1.18)}
+}
+
+@keyframes glow{
+ from{text-shadow:0 0 5px #ff4fa3}
+ to{text-shadow:0 0 30px #ff4fa3}
+}
+
+@keyframes up{
+ from{transform:translateY(0) rotate(0);opacity:1}
+ to{transform:translateY(-110vh) rotate(360deg);opacity:0}
 }
 </style>
 </head>
+
 <body>
-<div>
+
+<div class="box">
 <h1>❤️ Love Heart Animation ❤️</h1>
+
 <div class="heart">💗</div>
-<div class="love">I LOVE YOU ❤️</div>
-<button onclick="alert('❤️ My Cutie 😘👸 ❤️')">Click Me 💕</button>
+
+<div class="message">
+I LOVE YOU ❤️<br>
+My Cutie 😘👸
 </div>
+
+<button onclick="showLove()">Click Me 💕</button>
+</div>
+
+<script>
+function showLove(){
+ alert("😘 My Cutie 👸❤️");
+}
+
+function heart(){
+ const h=document.createElement("div");
+ h.className="floating";
+ h.innerText=["❤️","💗","💕","💖","💘"][Math.floor(Math.random()*5)];
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=(3+Math.random()*4)+"s";
+ document.body.appendChild(h);
+
+ setTimeout(()=>h.remove(),7000);
+}
+
+setInterval(heart,300);
+</script>
+
 </body>
 </html>
