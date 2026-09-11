@@ -2,293 +2,133 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JAY AI</title>
 
 <style>
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f2f2f2;
-    color:#111;
-}
-
-body.dark{
-    background:#111;
-    color:white;
-}
-
-.header{
-    background:#222;
-    color:white;
-    padding:18px;
-    text-align:center;
-}
-
-.controls{
-    text-align:center;
-    padding:10px;
-}
-
-.chat{
-    max-width:600px;
-    margin:10px auto;
-    padding:10px 15px 90px;
-}
-
-.message{
-    padding:12px;
-    margin:10px 0;
-    border-radius:12px;
-    background:white;
-    word-wrap:break-word;
-}
-
-.dark .message{
-    background:#222;
-    color:white;
-}
-
-.input-area{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    display:flex;
-    padding:10px;
-    background:white;
-}
-
-.dark .input-area{
-    background:#222;
-}
-
-input{
-    flex:1;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #aaa;
-}
-
-button{
-    padding:10px 14px;
-    margin:3px;
-    border-radius:10px;
-    border:none;
-    cursor:pointer;
-}
+body{margin:0;font-family:Arial;background:#f2f2f2}
+.header{background:#222;color:white;text-align:center;padding:18px}
+.chat{max-width:600px;margin:auto;padding:15px 15px 90px}
+.msg{background:white;padding:12px;margin:10px 0;border-radius:12px}
+.input{position:fixed;bottom:0;left:0;right:0;background:white;padding:10px;display:flex}
+input{flex:1;padding:12px;border-radius:10px;border:1px solid #aaa}
+button{padding:11px 14px;margin-left:5px;border:0;border-radius:10px}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-    <h2>🤖 JAY AI</h2>
-    <p>Your Personal AI Assistant</p>
+<h2>🤖 JAY AI</h2>
+<p>Your Personal AI Assistant</p>
 </div>
 
-<div class="controls">
-    <button onclick="darkMode()">🌙 Dark Mode</button>
-    <button onclick="clearChat()">🗑️ Clear Chat</button>
+<div class="chat" id="chat">
+<div class="msg">🤖 Hello! Main JAY AI hoon.</div>
 </div>
 
-<div class="chat" id="chat"></div>
-
-<div class="input-area">
-    <input
-        id="message"
-        placeholder="Message likho..."
-        onkeydown="if(event.key==='Enter') sendMessage()"
-    >
-
-    <button onclick="sendMessage()">➤ Send</button>
+<div class="input">
+<input id="message" placeholder="Message likho..."
+onkeydown="if(event.key==='Enter')sendMessage()">
 <button onclick="startVoice()">🎤</button>
-<button onclick="sendMessage()">➤ Send</button>
+<button onclick="sendMessage()">➤</button>
 </div>
 
 <script>
 
-let history =
-    JSON.parse(localStorage.getItem("jayAIHistory")) || [];
-
-
-function saveHistory(){
-
-    localStorage.setItem(
-        "jayAIHistory",
-        JSON.stringify(history)
-    );
-
-}
-
-
-function showHistory(){
-
-    const chat =
-        document.getElementById("chat");
-
-    chat.innerHTML = "";
-
-    if(history.length === 0){
-
-        chat.innerHTML =
-            '<div class="message">🤖 Hello! Main JAY AI hoon.</div>';
-
-        return;
-    }
-
-    history.forEach(function(item){
-
-        const msg =
-            document.createElement("div");
-
-        msg.className = "message";
-
-        msg.textContent = item;
-
-        chat.appendChild(msg);
-
-    });
-
-}
-
-
 async function sendMessage(){
 
-    const input =
-        document.getElementById("message");
+let input=document.getElementById("message");
+let text=input.value.trim();
 
-    const text =
-        input.value.trim();
+if(!text)return;
 
-    if(text === "") return;
+let chat=document.getElementById("chat");
 
+let user=document.createElement("div");
+user.className="msg";
+user.innerText="👤 "+text;
+chat.appendChild(user);
 
-    history.push("👤 " + text);
+input.value="";
 
-    saveHistory();
+let bot=document.createElement("div");
+bot.className="msg";
+bot.innerText="🤖 Thinking...";
+chat.appendChild(bot);
 
-    showHistory();
+try{
 
-    input.value = "";
+let r=await fetch("/chat",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({message:text})
+});
 
+let data=await r.json();
+bot.innerText=data.reply;
 
-    const thinking =
-        document.createElement("div");
+}catch(e){
 
-    thinking.className = "message";
-
-    thinking.textContent =
-        "🤖 Thinking...";
-
-    document
-        .getElementById("chat")
-        .appendChild(thinking);
-
-
-    try{
-
-        const response =
-            await fetch("/chat",{
-
-                method:"POST",
-
-                headers:{
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body:JSON.stringify({
-                    message:text
-                })
-
-            });
-
-
-        const data =
-            await response.json();
-
-
-        const reply =
-            data.reply ||
-            "🤖 कोई जवाब नहीं मिला।";
-
-
-        thinking.textContent =
-            reply;
-
-
-        history.push(reply);
-
-        saveHistory();
-
-
-    }catch(error){
-
-        thinking.textContent =
-            "❌ Backend से connection नहीं हो पाया।";
-
-    }
+bot.innerText="❌ Backend connection नहीं हुआ।";
 
 }
 
+}
 
-function clearChat(){
+async function startVoice(){
 
-    history = [];
+if(!window.SpeechRecognition &&
+   !window.webkitSpeechRecognition){
 
-    saveHistory();
+alert("❌ इस Chrome में Voice Recognition उपलब्ध नहीं है।");
+return;
+}
 
-    showHistory();
+try{
+
+await navigator.mediaDevices.getUserMedia({audio:true});
+
+let SpeechRecognition=
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+let recognition=new SpeechRecognition();
+
+recognition.lang="hi-IN";
+recognition.continuous=false;
+recognition.interimResults=false;
+
+recognition.onstart=function(){
+alert("🎙️ सुन रहा हूँ... अब बोलो!");
+};
+
+recognition.onresult=function(event){
+
+let text=event.results[0][0].transcript;
+
+document.getElementById("message").value=text;
+
+sendMessage();
+
+};
+
+recognition.onerror=function(event){
+
+alert("❌ Voice Error: "+event.error);
+
+};
+
+recognition.start();
+
+}catch(e){
+
+alert("❌ Mic start नहीं हुआ। Chrome को microphone permission दो।");
 
 }
 
-
-function darkMode(){
-
-    document.body.classList.toggle("dark");
-
-    localStorage.setItem(
-        "jayAIDark",
-        document.body.classList.contains("dark")
-    );
-
 }
 
-
-if(
-    localStorage.getItem("jayAIDark")
-    === "true"
-){
-
-    document.body.classList.add("dark");
-
-}
-
-
-showHistory();
-function startVoice() {
-    const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-        alert("❌ Voice input इस browser में supported नहीं है।");
-        return;
-    }
-
-    const recognition = new SpeechRecognition();
-
-    recognition.lang = "hi-IN";
-
-    recognition.start();
-
-    recognition.onresult = function(event) {
-        document.getElementById("message").value =
-            event.results[0][0].transcript;
-    };
-}
 </script>
 
 </body>
